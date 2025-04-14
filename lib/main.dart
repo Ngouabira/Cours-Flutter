@@ -1,3 +1,4 @@
+import 'package:cours_flutter/crud/page/product.dart';
 import 'package:cours_flutter/meteo.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
@@ -11,13 +12,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: const HomePage(),
-      initialRoute: '/',
+      initialRoute: '/product',
       routes: {
         '/': (context) => const HomePage(),
         '/meteo': (context) => const MeteoPage(),
+        '/product': (context) => const ProductPage(),
         // '/profile': (context) => const ProfilePage(),
       },
     );

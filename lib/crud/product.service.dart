@@ -28,4 +28,25 @@ class ProductService {
       throw Exception("Something wrong happened");
     }
   }
+
+  static Future<dynamic> update(Product product) async {
+    var url = Uri.parse(baseUrl + "/" + product.id);
+    var response = await client.put(url,
+        headers: header, body: jsonEncode(product.toJson()));
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Something wrong happened");
+    }
+  }
+
+  static Future<void> delete(id) async {
+    var url = Uri.parse(baseUrl + "/" + id);
+    var response = await client.delete(url, headers: header);
+    if (response.statusCode == 200) {
+      print('Deleted successfuly');
+    } else {
+      throw Exception("Something wrong happened");
+    }
+  }
 }

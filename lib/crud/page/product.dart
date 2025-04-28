@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cours_flutter/crud/page/create_product.dart';
+import 'package:cours_flutter/crud/page/edit_product.dart';
 import 'package:cours_flutter/crud/product.dart';
 import 'package:cours_flutter/crud/product.service.dart';
 import 'package:cours_flutter/home.dart';
@@ -34,6 +36,7 @@ class _ProductPageState extends State<ProductPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Product'),
+        actions: [Icon(Icons.home)],
       ),
       drawer: Drawer(
         child: ListView(
@@ -77,13 +80,25 @@ class _ProductPageState extends State<ProductPage> {
               title: Text(products[index].name),
               subtitle: Text(products[index].description),
               leading: const CircleAvatar(),
-              trailing: Wrap(
-                  // children: [
-                  //   IconButton(onPressed: {
-                  //     print("");
-                  //   }, icon: Icon(Icons.delete))
-                  // ]
-                  ),
+              trailing: Wrap(children: [
+                IconButton(
+                  onPressed: () async {
+                    await ProductService.delete(products[index].id);
+                    loadProducts();
+                  },
+                  icon: const Icon(Icons.delete),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                EditProductPage(product: products[index])));
+                  },
+                  icon: const Icon(Icons.edit),
+                )
+              ]),
             );
           }),
       bottomNavigationBar: BottomNavigationBar(
@@ -91,6 +106,15 @@ class _ProductPageState extends State<ProductPage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Accueil'),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CreateProductPage()));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
